@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charm</title>
+    <link rel="icon" type="image/png" href="https://charm.ong/logo.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="xIR13ND.css">
+</head>
+<body>
+    <div id="intro">
+        <div style="font-size: clamp(1.875rem, 5vw, 3rem); font-weight: 600; margin-bottom: 1rem;">Charm ☁️</div>
+        <div style="font-size: clamp(1.25rem, 3vw, 1.5rem); margin-bottom: 0.25rem;">Preparing ur Experience...</div>
+
+        <div style="display: flex; gap: 0.25rem; margin-top: 0.25rem; margin-bottom: 1rem;">
+            <div style="width: 0.5rem; height: 0.5rem; background: white; border-radius: 50%; animation: blink 1.4s infinite;"></div>
+            <div style="width: 0.5rem; height: 0.5rem; background: white; border-radius: 50%; animation: blink 1.4s infinite 0.2s;"></div>
+            <div style="width: 0.5rem; height: 0.5rem; background: white; border-radius: 50%; animation: blink 1.4s infinite 0.4s;"></div>
+        </div>
+
+        <div class="grid-effect"></div>
+
+        <div style="position: absolute; bottom: 1rem; width: 100%; text-align: center; color: #9ca3af; font-size: 0.75rem; pointer-events: none; opacity: 0.5;">
+            Made by Kuna
+        </div>
+    </div>
+
+    <div class="instructions">
+        <div class="instructions-title">Controls</div>
+        <div class="instruction-item">
+            <div class="instruction-key">Left Click/Touch</div>
+            <div class="instruction-action">Rotate</div>
+        </div>
+        <div class="instruction-item">
+            <div class="instruction-key">Right Click/2 Fingers</div>
+            <div class="instruction-action">Pan</div>
+        </div>
+        <div class="instruction-item">
+            <div class="instruction-key">Scroll/Pinch</div>
+            <div class="instruction-action">Zoom</div>
+        </div>
+    </div>
+
+    <div class="side-panel">
+        <div class="panel-header">ESP SETTINGS</div>
+        <div class="panel-content">
+            <div class="section expanded">
+                <div class="section-title">Box ESP</div>
+                <div class="section-content">
+                    <div class="control-item">
+                        <div class="checkbox checked" id="box"></div>
+                        <div class="control-label">Box</div>
+                        <input type="color" class="color-picker" id="boxColor" value="#7b68ee">
+                    </div>
+                    <div class="control-item">
+                        <label class="control-label">Box Type</label>
+                    </div>
+                    <div>
+                        <select class="dropdown" id="boxType">
+                            <option value="0">Bounding Box</option>
+                            <option value="1">Glow Box</option>
+                            <option value="2">Corner Box</option>
+                            <option value="3">3D Box</option>
+                        </select>
+                    </div>
+                    <div class="control-item">
+                        <div class="checkbox" id="boxFilled"></div>
+                        <div class="control-label">Box Fill</div>
+                        <input type="color" class="color-picker" id="boxFillColor" value="#7b68ee">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section expanded">
+                <div class="section-title">Player Info</div>
+                <div class="section-content">
+                    <div class="control-item">
+                        <div class="checkbox checked" id="name"></div>
+                        <div class="control-label">Name</div>
+                        <input type="color" class="color-picker" id="nameColor" value="#ffffff">
+                    </div>
+                    <div class="control-item">
+                        <div class="checkbox checked" id="distance"></div>
+                        <div class="control-label">Distance</div>
+                        <input type="color" class="color-picker" id="distanceColor" value="#aaaaaa">
+                    </div>
+                    <div class="control-item">
+                        <div class="checkbox checked" id="health"></div>
+                        <div class="control-label">Health Bar</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section expanded">
+                <div class="section-title">Visual Effects</div>
+                <div class="section-content">
+                    <div class="control-item">
+                        <div class="checkbox checked" id="skeleton"></div>
+                        <div class="control-label">Skeleton</div>
+                        <input type="color" class="color-picker" id="skeletonColor" value="#ffffff">
+                    </div>
+                    <div class="control-item">
+                        <div class="checkbox checked" id="tracers"></div>
+                        <div class="control-label">Tracers</div>
+                        <input type="color" class="color-picker" id="tracerColor" value="#7b68ee">
+                    </div>
+                    <div class="control-item">
+                        <label class="control-label">Tracer Start</label>
+                    </div>
+                    <div>
+                        <select class="dropdown" id="tracerStart">
+                            <option value="0">Bottom</option>
+                            <option value="1">Top</option>
+                            <option value="2">Mouse</option>
+                            <option value="3">Center</option>
+                        </select>
+                    </div>
+                    <div class="control-item">
+                        <div class="checkbox" id="chineseHat"></div>
+                        <div class="control-label">Chinese Hat</div>
+                        <input type="color" class="color-picker" id="chineseHatColor" value="#ff0000">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="canvas-container">
+        <canvas id="modelViewer"></canvas>
+        <canvas id="espCanvas"></canvas>
+        <div id="message" class="message">Loading model...</div>
+    </div>
+
+    <script src="xIR13ND.js"></script>
+</body>
+</html>

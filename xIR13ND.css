@@ -1,0 +1,523 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: radial-gradient(ellipse at center, #1a001f 0%, #0c0010 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #fff;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    overflow: hidden;
+    touch-action: none;
+}
+
+/* ==== GRID EFFECT ==== */
+.grid-effect {
+    position: absolute;
+    width: 200vw;
+    height: 200vh;
+    background-image:
+        linear-gradient(#ffffff11 1px, transparent 1px),
+        linear-gradient(90deg, #ffffff11 1px, transparent 1px);
+    background-size: 40px 40px;
+    transform: perspective(800px) rotateX(75deg) translateZ(0);
+    animation: zoomGrid 4s ease-in-out forwards;
+    z-index: 20;
+    will-change: transform, opacity;
+}
+
+@keyframes zoomGrid {
+    0% {
+        transform: perspective(800px) rotateX(75deg) translateZ(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: perspective(800px) rotateX(75deg) translateZ(600px) scale(3);
+        opacity: 0;
+    }
+}
+
+@keyframes blink {
+    0%, 80%, 100% { opacity: 0; }
+    40% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes checkPop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* ==== INTRO ==== */
+#intro {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.7s;
+}
+
+/* ==== CANVAS ==== */
+.canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #0a0a0a;
+}
+
+#modelViewer {
+    width: 100%;
+    height: 100%;
+    display: block;
+    touch-action: none;
+}
+
+#espCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* ==== MESSAGE ==== */
+.message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1rem;
+    color: #888;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+/* ==== SIDE PANEL ==== */
+.side-panel {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    width: min(320px, calc(100vw - 20px));
+    max-width: 320px;
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+    max-height: calc(100vh - 20px);
+    z-index: 10;
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.panel-header {
+    background: linear-gradient(135deg, rgba(123, 104, 238, 0.9), rgba(80, 60, 220, 0.9));
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.panel-content {
+    padding: 15px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* ==== SECTIONS ==== */
+.section {
+    margin-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(30, 30, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: border-color 0.2s ease;
+}
+
+.section:hover {
+    border-color: rgba(123, 104, 238, 0.3);
+}
+
+.section-title {
+    font-size: 11px;
+    color: #7b68ee;
+    padding: 12px 15px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: rgba(20, 20, 20, 0.8);
+    border-bottom: 1px solid rgba(123, 104, 238, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s ease;
+}
+
+.section-title:hover {
+    background: rgba(25, 25, 25, 0.9);
+}
+
+.section-title::before {
+    content: "▶";
+    font-size: 10px;
+    transition: transform 0.2s ease;
+    color: #7b68ee;
+}
+
+.section.expanded .section-title::before {
+    transform: rotate(90deg);
+}
+
+.section-content {
+    padding: 15px;
+    display: grid;
+    gap: 12px;
+}
+
+.section:not(.expanded) .section-content {
+    display: none;
+}
+
+/* ==== CONTROLS ==== */
+.control-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    gap: 10px;
+}
+
+/* Checkbox */
+.checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #444;
+    background: rgba(20, 20, 20, 0.8);
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    border-radius: 4px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.checkbox:hover {
+    border-color: #7b68ee;
+}
+
+.checkbox.checked {
+    background: #7b68ee;
+    border-color: #7b68ee;
+}
+
+.checkbox.checked::after {
+    content: '';
+}
+
+/* Label */
+.control-label {
+    color: #ddd;
+    cursor: pointer;
+    user-select: none;
+    flex: 1;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.control-label:hover {
+    color: #fff;
+}
+
+/* Color Picker */
+.color-picker {
+    width: 36px;
+    height: 24px;
+    border: 2px solid #444;
+    cursor: pointer;
+    border-radius: 6px;
+    background: transparent;
+    transition: all 0.2s ease;
+    will-change: transform;
+}
+
+.color-picker:hover {
+    transform: scale(1.05);
+    border-color: #7b68ee;
+}
+
+.color-picker:active {
+    transform: scale(0.95);
+}
+
+/* Dropdown */
+.dropdown {
+    width: 100%;
+    padding: 10px 12px;
+    background: rgba(20, 20, 20, 0.9);
+    border: 2px solid #444;
+    color: #ddd;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-top: 5px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237b68ee' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 35px;
+    will-change: transform;
+}
+
+.dropdown:hover {
+    border-color: #7b68ee;
+    background: rgba(25, 25, 30, 0.9);
+    transform: translateY(-1px);
+}
+
+.dropdown:focus {
+    outline: none;
+    border-color: #9d8aff;
+}
+
+.dropdown option {
+    background: rgba(20, 20, 20, 0.95);
+    color: #ddd;
+    padding: 10px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #7b68ee, #9d8aff);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #9d8aff, #7b68ee);
+}
+
+/* ==== INSTRUCTIONS ==== */
+.instructions {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px 16px;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease-out 0.1s both;
+}
+
+.instructions-title {
+    font-size: 11px;
+    color: #7b68ee;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.instruction-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #ddd;
+}
+
+.instruction-item:last-child {
+    margin-bottom: 0;
+}
+
+.instruction-key {
+    background: rgba(123, 104, 238, 0.15);
+    border: 1px solid rgba(123, 104, 238, 0.3);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 11px;
+    color: #7b68ee;
+    font-weight: 600;
+    min-width: 80px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.instruction-key:hover {
+    background: rgba(123, 104, 238, 0.25);
+    border-color: rgba(123, 104, 238, 0.5);
+}
+
+.instruction-action {
+    color: #aaa;
+    font-weight: 500;
+}
+
+/* ==== MOBILE ADAPTATION ==== */
+@media (max-width: 768px) {
+    body {
+        font-size: 0.9rem;
+    }
+
+    .side-panel {
+        width: calc(100vw - 20px);
+        max-height: 35vh;
+        top: auto;
+        bottom: 10px;
+        transform: scale(0.9);
+        transform-origin: bottom right;
+    }
+
+    .panel-header {
+        font-size: 12px;
+        padding: 10px 14px;
+    }
+
+    .panel-content {
+        max-height: calc(35vh - 60px);
+        padding: 10px;
+    }
+
+    .section-title {
+        font-size: 10px;
+        padding: 10px 12px;
+    }
+
+    .section-content {
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .control-item {
+        font-size: 11px;
+        gap: 8px;
+    }
+
+    .checkbox {
+        width: 16px;
+        height: 16px;
+    }
+
+    .color-picker {
+        width: 28px;
+        height: 20px;
+    }
+
+    .dropdown {
+        font-size: 11px;
+        padding: 8px 10px;
+        background-position: right 8px center;
+    }
+
+    .instructions {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        padding: 10px 12px;
+    }
+
+    .instruction-item {
+        font-size: 11px;
+        margin-bottom: 6px;
+    }
+
+    .instruction-key {
+        font-size: 10px;
+        padding: 4px 8px;
+        min-width: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 0.8rem;
+    }
+
+    .side-panel {
+        transform: scale(0.85);
+        transform-origin: bottom right;
+    }
+
+    .panel-header {
+        font-size: 11px;
+        padding: 8px 12px;
+    }
+
+    .section-title {
+        font-size: 9px;
+        padding: 8px 10px;
+    }
+
+    .control-item {
+        font-size: 10px;
+        gap: 6px;
+    }
+
+    .checkbox {
+        width: 14px;
+        height: 14px;
+    }
+
+    .color-picker {
+        width: 24px;
+        height: 18px;
+    }
+
+    .dropdown {
+        font-size: 10px;
+        padding: 7px 8px;
+    }
+
+    .instructions {
+        font-size: 9px;
+        padding: 6px 8px;
+    }
+
+    .instruction-key {
+        font-size: 8px;
+        padding: 2px 5px;
+        min-width: 50px;
+    }
+}
