@@ -6,6 +6,6 @@ This basically a glb view of a roblox r15 model with esp features cool be very c
 
 <br>
 
-<img src="https://files.catbox.moe/9vlgqe.gif" width="600" alt="3D ESP Preview Demo">
+![Demo](https://files.catbox.moe/9vlgqe.gif)
 
 </div>
