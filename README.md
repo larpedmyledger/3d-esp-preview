@@ -1,6 +1,11 @@
-<div align="center">
+<img
+  src="https://raw.githubusercontent.com/larpedmyledger/larpedmyledger/refs/heads/main/y.png"
+  width="100"
+  align="right"
+  alt="Badge"
+/>
 
-<img src="https://raw.githubusercontent.com/larpedmyledger/larpedmyledger/refs/heads/main/y.png" width="100" alt="Badge" />
+<div align="center">
 
 # 3D ESP Preview
 
@@ -13,6 +18,6 @@
 <br/>
 
 A **GLB preview** of a Roblox **R15 model** with ESP features.  
-Perfect to showcase interactively on a website.
+Perfect to showcase on your website.
 
 </div>
